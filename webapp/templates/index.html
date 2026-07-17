@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHECKPOINT — Mask Detection Terminal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="scanlines" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">◈</span>
+    <div class="brand-text">
+      <h1>CHECKPOINT</h1>
+      <p>Face Mask Compliance Terminal</p>
+    </div>
+  </div>
+  <div class="status-pill" id="statusPill">
+    <span class="led" id="statusLed"></span>
+    <span id="statusText">STANDBY</span>
+  </div>
+</header>
+
+<main class="stage">
+
+  <nav class="tabs" role="tablist">
+    <button class="tab active" data-tab="live" role="tab">01 · LIVE SCAN</button>
+    <button class="tab" data-tab="upload" role="tab">02 · UPLOAD SCAN</button>
+  </nav>
+
+  <!-- LIVE SCAN PANEL -->
+  <section class="panel active" id="panel-live">
+    <div class="viewfinder">
+      <span class="bracket tl"></span>
+      <span class="bracket tr"></span>
+      <span class="bracket bl"></span>
+      <span class="bracket br"></span>
+      <div class="feed-wrap">
+        <img id="videoImg" alt="Live camera feed will appear here">
+        <div class="feed-placeholder" id="feedPlaceholder">
+          <p>CAMERA IDLE</p>
+          <button class="btn-primary" id="startBtn">▶ START SCAN</button>
+        </div>
+      </div>
+    </div>
+    <p class="hint">Live feed sirf tumhare local machine ke webcam se browser me stream hota hai. Band karne ke liye "STOP SCAN" dabao.</p>
+    <button class="btn-secondary" id="stopBtn" style="display:none;">■ STOP SCAN</button>
+  </section>
+
+  <!-- UPLOAD SCAN PANEL -->
+  <section class="panel" id="panel-upload">
+    <form id="uploadForm">
+      <label class="dropzone" id="dropzone" for="fileInput">
+        <span class="dz-icon">⤒</span>
+        <span class="dz-text">Image drag karo ya click karke choose karo</span>
+        <span class="dz-sub">JPG · PNG supported</span>
+        <input type="file" id="fileInput" name="image" accept="image/*" hidden>
+      </label>
+      <button type="submit" class="btn-primary" id="scanBtn" disabled>SCAN IMAGE</button>
+    </form>
+
+    <div class="result-grid" id="resultGrid" style="display:none;">
+      <div class="result-card">
+        <span class="eyebrow">Input</span>
+        <img id="previewImg" alt="Uploaded preview">
+      </div>
+      <div class="result-card">
+        <span class="eyebrow">Scan Result</span>
+        <img id="outputImg" alt="Detection result">
+      </div>
+    </div>
+
+    <div class="readout" id="readout" style="display:none;">
+      <div class="readout-row">
+        <span class="readout-label">FACES DETECTED</span>
+        <span class="readout-value mono" id="faceCount">0</span>
+      </div>
+      <div id="detectionList"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <span>NOVA MASK-DETECT v1.0</span>
+  <span class="dot">·</span>
+  <span>MobileNetV2 + OpenCV DNN</span>
+</footer>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
